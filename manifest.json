@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Markdown Clipper",
+  "version": "1.0.0",
+  "description": "Convert selected web content to Markdown format",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "clipboardWrite",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["lib/turndown.js", "lib/turndown-plugin-gfm.js", "content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}
