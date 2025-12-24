@@ -3,6 +3,11 @@
   "name": "Markdown Clipper",
   "version": "1.0.0",
   "description": "Convert selected web content to Markdown format",
+  "icons": {
+    "16": "icons/icon16.svg",
+    "48": "icons/icon48.svg",
+    "128": "icons/icon128.svg"
+  },
   "permissions": [
     "contextMenus",
     "activeTab",
@@ -21,5 +26,14 @@
   ],
   "host_permissions": [
     "<all_urls>"
-  ]
+  ],
+  "commands": {
+    "copy-as-markdown": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+M",
+        "mac": "Command+Shift+M"
+      },
+      "description": "Copy selection as Markdown"
+    }
+  }
 }

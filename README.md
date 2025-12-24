@@ -11,26 +11,41 @@ A browser extension that converts selected web content to Markdown format.
 
 ## Usage
 
+### Method 1: Context Menu
 1. Select any content on a webpage
 2. Right-click to open the context menu
 3. Click "Copy as Markdown"
 4. The selected content will be copied to your clipboard in Markdown format
 
-## Development Status
+### Method 2: Keyboard Shortcut
+1. Select any content on a webpage
+2. Press `Ctrl+Shift+M` (Windows/Linux) or `Cmd+Shift+M` (Mac)
+3. The selected content will be copied to your clipboard in Markdown format
 
-Currently in development - Milestone 1 completed (basic structure).
+A green toast notification will appear confirming the copy was successful.
 
-## Features (Planned)
+## Features
 
-- Convert HTML selections to Markdown
-- Support for:
+- ✅ Convert HTML selections to Markdown
+- ✅ Support for:
   - Headers, paragraphs, lists
   - Links and images
   - Tables (GitHub Flavored Markdown)
-  - Code blocks with syntax highlighting
+  - Code blocks
+  - Bold, italic, strikethrough
   - Nested structures
-- Visual feedback on copy
-- Works on all websites
+- ✅ Visual feedback on copy (toast notification)
+- ✅ Keyboard shortcut (`Ctrl+Shift+M` / `Cmd+Shift+M`)
+- ✅ Works on all websites (including CSP-restricted sites)
+
+## Known Limitations
+
+- **Complex Modern Websites**: Sites with heavy use of Shadow DOM or custom web components (like MDN, some React-based sites) may have issues with content selection. The browser's Selection API itself may return unexpected content when selecting across component boundaries. For best results on these sites:
+  - Select smaller chunks of content
+  - Use built-in copy buttons if available
+  - Avoid selecting across different component sections
+
+- **Special Chrome Pages**: The extension cannot run on Chrome internal pages (`chrome://`, `chrome-extension://`, etc.) or PDF files.
 
 ## Technical Stack
 
