@@ -19,7 +19,7 @@ A browser extension that converts selected web content to Markdown format.
 
 ### Method 2: Keyboard Shortcut
 1. Select any content on a webpage
-2. Press `Ctrl+Shift+M` (Windows/Linux) or `Cmd+Shift+M` (Mac)
+2. Press `Ctrl+M` (Windows/Linux) or `Cmd+Shift+M` (Mac)
 3. The selected content will be copied to your clipboard in Markdown format
 
 A green toast notification will appear confirming the copy was successful.
