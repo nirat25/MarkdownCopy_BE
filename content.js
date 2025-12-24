@@ -29,10 +29,30 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       return;
     }
 
-    const selectedText = selection.toString();
-    console.log('Markdown Clipper: Selected text:', selectedText.substring(0, 50) + '...');
+    // Extract HTML from selection
+    try {
+      // Get the range from the selection
+      const range = selection.getRangeAt(0);
 
-    // TODO: Convert selection to Markdown (will implement in next milestones)
-    // TODO: Copy to clipboard (will implement in next milestones)
+      // Clone the selected content to preserve DOM structure
+      const clonedContent = range.cloneContents();
+
+      // Create a temporary container to hold the cloned content
+      const container = document.createElement('div');
+      container.appendChild(clonedContent);
+
+      // Get the HTML from the container
+      const html = container.innerHTML;
+
+      // Log for testing
+      console.log('Markdown Clipper: Extracted HTML:', html.substring(0, 100) + '...');
+      console.log('Markdown Clipper: Full HTML length:', html.length);
+
+      // TODO: Convert HTML to Markdown (will implement in next milestone)
+      // TODO: Copy to clipboard (will implement in later milestones)
+
+    } catch (error) {
+      console.error('Markdown Clipper: Error extracting HTML:', error);
+    }
   }
 });
