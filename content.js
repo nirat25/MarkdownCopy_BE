@@ -35,6 +35,45 @@ turndownService.use(gfm);
 
 console.log('Markdown Clipper: Turndown service initialized with GFM plugin');
 
+// Function to show toast notification
+function showToast(message, isSuccess = true) {
+  // Create toast element
+  const toast = document.createElement('div');
+  toast.textContent = message;
+  toast.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: ${isSuccess ? '#4CAF50' : '#f44336'};
+    color: white;
+    padding: 16px 24px;
+    border-radius: 4px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 2147483647;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  `;
+
+  // Add to page
+  document.body.appendChild(toast);
+
+  // Fade in
+  setTimeout(() => {
+    toast.style.opacity = '1';
+  }, 10);
+
+  // Fade out and remove
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => {
+      document.body.removeChild(toast);
+    }, 300);
+  }, 2700);
+}
+
 // Listen for messages from background script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'convertToMarkdown') {
@@ -75,10 +114,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       console.log(markdown);
       console.log('Markdown Clipper: Markdown length:', markdown.length);
 
-      // TODO: Copy to clipboard (will implement in next milestones)
+      // Copy to clipboard
+      navigator.clipboard.writeText(markdown)
+        .then(() => {
+          console.log('Markdown Clipper: Successfully copied to clipboard');
+          showToast('✓ Copied as Markdown!', true);
+        })
+        .catch((error) => {
+          console.error('Markdown Clipper: Failed to copy to clipboard:', error);
+          showToast('✗ Failed to copy', false);
+        });
 
     } catch (error) {
       console.error('Markdown Clipper: Error extracting HTML:', error);
+      showToast('✗ Error converting selection', false);
     }
   }
 });
