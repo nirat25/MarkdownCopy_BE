@@ -24,6 +24,11 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     // Send message to content script to convert selection to markdown
     chrome.tabs.sendMessage(tab.id, {
       action: 'convertToMarkdown'
+    }, (response) => {
+      // Handle any errors (e.g., content script not loaded on certain pages)
+      if (chrome.runtime.lastError) {
+        console.warn('Markdown Clipper: Could not send message to content script:', chrome.runtime.lastError.message);
+      }
     });
   }
 });

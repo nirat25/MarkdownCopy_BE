@@ -16,6 +16,25 @@ if (typeof turndownPluginGfm !== 'undefined') {
   console.error('Markdown Clipper: Turndown GFM plugin not found');
 }
 
+// Initialize Turndown service with configuration
+const turndownService = new TurndownService({
+  headingStyle: 'atx',           // Use # for headings
+  hr: '---',                      // Horizontal rule style
+  bulletListMarker: '-',          // Use - for bullet lists
+  codeBlockStyle: 'fenced',       // Use ``` for code blocks
+  fence: '```',                   // Code fence characters
+  emDelimiter: '*',               // Use * for emphasis
+  strongDelimiter: '**',          // Use ** for strong
+  linkStyle: 'inlined',           // Use [text](url) format
+  linkReferenceStyle: 'full'      // Reference link style
+});
+
+// Add GFM (GitHub Flavored Markdown) plugin for tables, strikethrough, and task lists
+const gfm = turndownPluginGfm.gfm;
+turndownService.use(gfm);
+
+console.log('Markdown Clipper: Turndown service initialized with GFM plugin');
+
 // Listen for messages from background script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'convertToMarkdown') {
@@ -48,8 +67,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       console.log('Markdown Clipper: Extracted HTML:', html.substring(0, 100) + '...');
       console.log('Markdown Clipper: Full HTML length:', html.length);
 
-      // TODO: Convert HTML to Markdown (will implement in next milestone)
-      // TODO: Copy to clipboard (will implement in later milestones)
+      // Convert HTML to Markdown
+      const markdown = turndownService.turndown(html);
+
+      // Log the converted Markdown
+      console.log('Markdown Clipper: Converted to Markdown:');
+      console.log(markdown);
+      console.log('Markdown Clipper: Markdown length:', markdown.length);
+
+      // TODO: Copy to clipboard (will implement in next milestones)
 
     } catch (error) {
       console.error('Markdown Clipper: Error extracting HTML:', error);
